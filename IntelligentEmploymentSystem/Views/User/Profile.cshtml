@@ -1,0 +1,46 @@
+﻿@model IntelligentEmploymentSystem.Models.ProfileModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">Welcome, @Model.User.UserName!</h2>
+        <a asp-action="Logout" class="btn btn-outline-danger">Logout</a>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Account Information</h5>
+            <p><strong>Email:</strong> @Model.User.Email</p>
+            <a asp-action="GetAllJobDescription" asp-controller="JobDescription" class="btn btn-success">Apply for Jobs</a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            @if (Model.Resume != null)
+            {
+                <h5 class="card-title">Your Resume</h5>
+                <div class="row">
+                    <div class="col-md-4 text-center mb-3">
+                        <img src="@Model.Resume.PicPath" class="img-fluid rounded shadow" style="max-height: 360px;" alt="Resume Image">
+                    </div>
+                    <div class="col-md-8">
+                        <p><strong>Name:</strong> @Model.Resume.Name</p>
+                        <p><strong>Summary:</strong> @Model.Resume.Summary</p>
+                        <p><strong>Skills:</strong> @Model.Resume.Skills</p>
+                        <p><strong>Education:</strong> @Model.Resume.Education</p>
+                        <p><strong>Experience:</strong> @Model.Resume.Experience</p>
+                        <a asp-action="Update" asp-controller="Resume" class="btn btn-primary mt-2">Update your Resume</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p>No resume found. <a asp-action="Create" asp-controller="Resume" class="btn btn-outline-primary">Create one now</a>!</p>
+            }
+        </div>
+    </div>
+</div>

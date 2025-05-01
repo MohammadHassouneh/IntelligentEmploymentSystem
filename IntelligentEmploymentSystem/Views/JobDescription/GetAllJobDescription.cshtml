@@ -1,0 +1,65 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model List<IntelligentEmploymentSystem.Models.JobDescriptionModel>;
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.0/css/dataTables.bootstrap5.css" />
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.0/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.0/js/dataTables.bootstrap5.js"></script>
+</head>
+
+<body>
+    <h1>Available jobs</h1>
+
+    <table id="example" class="table table-striped" style="width:100%">
+
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>JobTitle</th>
+                <th>JobBrief</th>
+                <th>Responsibilities</th>
+                <th>Requirements</th>
+                <th>Apply</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (IntelligentEmploymentSystem.Models.JobDescriptionModel job in Model)
+            {
+                <tr>
+                    <td>@job.CompanyName</td>
+                    <td>@job.JobTitle</td>
+                    <td>@job.JobBrief</td>
+                    <td>@job.Responsibilities</td>
+                    <td>@job.Requirements</td>
+                    @if (@job.Status == "Apply Now")
+                    {
+                        <td>
+                            <a class="btn btn-success" asp-action="Apply" asp-controller="Score" asp-route-jobId="@job.JobDescriptionId">@job.Status</a>
+                        </td>
+                    }
+                    else{
+                        <td class="text-success">
+                            @job.Status
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script>
+        new DataTable('#example');
+    </script>
+    </body>
+
+</html>

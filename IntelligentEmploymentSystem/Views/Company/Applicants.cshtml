@@ -1,0 +1,58 @@
+﻿@model List<IntelligentEmploymentSystem.Models.ResumeModel>
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.0/css/dataTables.bootstrap5.css" />
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.0/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.0/js/dataTables.bootstrap5.js"></script>
+
+
+</head>
+
+<body>
+
+    <table id="example" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+				<th>Summary</th>
+				<th>Skills</th>
+                <th>Experience</th>
+				<th>Education</th>
+				<th>Address</th>
+				<th>Phone</th>
+				<th>Email</th>
+				<th>Score</th>
+			</tr>
+        </thead>
+        <tbody>
+            @foreach (IntelligentEmploymentSystem.Models.ResumeModel resume in Model)
+            {
+                <tr>
+                    <td>@resume.Name</td>
+                    <td>@resume.Summary</td>
+                    <td>@resume.Skills</td>
+                    <td>@resume.Experience</td>
+                    <td>@resume.Education</td>
+                    <td>@resume.Address</td>
+                    <td>@resume.Phone</td>
+                    <td>@resume.Email</td>
+                    <td>@resume.Score</td>
+         
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+
+    <script>
+        new DataTable('#example');
+    </script>
+
+</body>
+</html>

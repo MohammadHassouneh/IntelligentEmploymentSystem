@@ -1,0 +1,94 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IntelligentEmploymentSystem.Models.CompanyModel;
+
+<html>
+<head>
+
+</head>
+
+<body>
+
+    <form asp-action="registration">
+    <dev class="row">
+        <dev class="col-md-4">
+            Company Name
+            <span class="text-danger">*</span>
+            <input type="text" class="form-control" asp-for="CompanyName"/>
+            <span asp-validation-for="CompanyName" class="text-danger"></span>
+        </dev>
+            <dev class="col-md-4">
+                Email
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control" asp-for="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </dev>
+            <dev class="col-md-4">
+                Password
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control" asp-for="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </dev>
+
+    </dev>
+        <dev class="row">
+            <dev class="col-md-4">
+                AboutUs
+                <span class="text-danger">*</span>
+                <textarea type="text" class="form-control" rows="8" asp-for="AboutUs"></textarea>
+                <span asp-validation-for="AboutUs" class="text-danger"></span>
+            </dev>
+            <dev class="col-md-4">
+                Our Service
+                <span class="text-danger">*</span>
+                <textarea type="text" class="form-control" rows="8" asp-for="OurService"></textarea>
+                <span asp-validation-for="OurService" class="text-danger"></span>
+            </dev>
+         
+
+        </dev>
+
+        <dev class="row">
+            <dev class="col-md-4">
+                Phone
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control" asp-for="Phone" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </dev>
+            <dev class="col-md-4">
+                Website
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control" asp-for="WebSite" />
+                <span asp-validation-for="WebSite" class="text-danger"></span>
+            </dev>
+            </dev>
+
+            <dev class="row">
+                <dev class="col-md-4">
+                    Address
+                    <span class="text-danger">*</span>
+                    <input type="text" class="form-control" asp-for="Address" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </dev>
+            </dev>
+
+        <dev class="row" style="padding-top:10px">
+            <dev class="col-md-4">
+                <input type="submit" class="btn btn-primary" value="Registration" />
+            </dev>
+        </dev>
+
+    </form>
+
+
+</body>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+</html>

@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@model IntelligentEmploymentSystem.Models.UserModel;
+
+<html>
+    <head>
+
+    </head>
+    <body>
+    <form asp-action="Registration">
+        <dev class="row">
+            <dev class="col-md-4">
+                User Name
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control" asp-for="userName"/>
+                <span asp-validation-for="userName" class="text-danger"></span>
+
+            </dev>
+        <dev class="col-md-4">
+            Email
+            <span class="text-danger">*</span>
+            <input type="text" class="form-control " asp-for="email" />
+                <span asp-validation-for="email" class="text-danger"></span>
+        </dev>
+        <dev class="col-md-4">
+            Password
+            <span class="text-danger">*</span>
+            <input type="password" class="form-control " asp-for="password" />
+                <span asp-validation-for="password" class="text-danger"></span>
+        </dev>
+
+        </dev>
+        <dev class="row" style="padding-top:10px">
+            <div class="col-md-4">
+            <input type="submit" class="btn btn-primary" value="Registration" />
+            </div>
+        </dev>
+    </form>
+    </body>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+</html>
