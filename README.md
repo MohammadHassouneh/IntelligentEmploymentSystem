@@ -10,7 +10,7 @@ The Intelligent Employment System is a web-based platform designed to facilitate
 ### 🧑‍💼 For Applicants:
 - User registration and login
 - Profile management
-- Resume upload and update
+- Resume create and update
 - View available job postings
 
 ### 🏢 For Companies:
