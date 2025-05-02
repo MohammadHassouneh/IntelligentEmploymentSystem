@@ -11,6 +11,20 @@ namespace IntelligentEmploymentSystem.Controllers
         public IActionResult Create()
 
         {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return RedirectToAction("Login", "User");
+
+
+            var resume = context.Resumes.FirstOrDefault(x => x.UserId == userId);
+
+            if (resume != null)
+            {
+                return RedirectToAction("Update", "Resume");
+            }
+
+
+
             return View();
         }
 
