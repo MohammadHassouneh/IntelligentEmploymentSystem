@@ -27,8 +27,6 @@ public partial class Resume
 
     public int UserId { get; set; }
 
-   
-
     public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
 
     public virtual User User { get; set; } = null!;
