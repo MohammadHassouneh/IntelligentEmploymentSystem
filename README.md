@@ -26,7 +26,7 @@ The Intelligent Employment System is a web-based platform designed to facilitate
 ## Technologies Used
 - **Backend**: ASP.NET Core MVC, Entity Framework Core
 - **Frontend**: Razor Pages, Bootstrap 5, jQuery, DataTables
-- **Database**: SQL Server (Code First Migrations)
+- **Database**: SQL Server (database First)
 
 ## Folder Structure
 - `/Controllers` – Handles web request routing
@@ -37,8 +37,9 @@ The Intelligent Employment System is a web-based platform designed to facilitate
 ## Getting Started
 1. Clone the repository or extract the source files.
 2. Open the solution in Visual Studio.
-3. Update the database using `Update-Database` in the Package Manager Console.
-4. Run the project using IIS Express or `dotnet run`.
+3. generate database 'using script.sql'.
+4. Update the database using `Scaffold command` in the Package Manager Console.
+5. Run the project using IIS Express or `dotnet run`.
 
 ## Future Improvements
 - Add role-based access control
