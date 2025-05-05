@@ -11,7 +11,7 @@ namespace IntelligentEmploymentSystem.Controllers
         {
             return View();
         }
-
+        
         public IActionResult registration(Models.CompanyModel companyModel) { 
           DBEntities.Company company = new DBEntities.Company();
 
@@ -67,7 +67,19 @@ namespace IntelligentEmploymentSystem.Controllers
             var company = context.Companies.FirstOrDefault(u => u.CompanyId == companyId);
             if (company == null) return NotFound();
 
-            return View(company);
+            Models.CompanyModel companyModel = new CompanyModel();
+            companyModel.CompanyName = company.CompanyName;
+            companyModel.AboutUs = company.AboutUs;
+            companyModel.OurService = company.OurService;
+            companyModel.Email = company.Email;
+            companyModel.Phone = company.Phone;
+            companyModel.Address = company.Address;
+            companyModel.WebSite = company.WebSite;
+            
+            
+
+
+            return View(companyModel);
         }
 
         public IActionResult Logout()
