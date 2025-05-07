@@ -42,43 +42,43 @@ namespace IntelligentEmploymentSystem.Controllers
 
         public IActionResult GetAllJobDescription()
         {
+            int? userId = HttpContext.Session.GetInt32("UserId");
 
-            var jobsData = (from jobs in context.JobDescriptions
-                            join score in context.Scores
-                                on jobs.JobDescriptionId equals score.JobDescriptionId
-                                into jobScores 
-                            from score in jobScores.DefaultIfEmpty() 
-                            select new
-                            {
-                                jobs.JobTitle,
-                                jobs.JobBrief,
-                                jobs.Responsibilities,
-                                jobs.Requirements,
-                                jobs.JobDescriptionId,
-                                jobs.CompanyId,
-                                CompanyName = jobs.Company.CompanyName,
-                                ResumeId = score != null ? score.ResumeId : (int?)null, 
-                                JobDescId = jobs.JobDescriptionId
-                            }).ToList();
+            if (userId == null)
+                return RedirectToAction("Login");
+
+            var resume = context.Resumes.FirstOrDefault(u => u.UserId == userId);
+            if (resume == null) return NotFound();
+
+            List<IntelligentEmploymentSystem.Models.JobDescriptionModel> jobDescriptions = new List<JobDescriptionModel>();
+
+            jobDescriptions = (from company in context.Companies.ToList()
+                               join job in context.JobDescriptions.ToList()
+                               on company.CompanyId equals job.CompanyId
+                               select new Models.JobDescriptionModel
+                          {
+                              
+                                   JobDescriptionId=job.JobDescriptionId,
+                                   JobTitle = job.JobTitle,
+                                   JobBrief = job.JobBrief,
+                                   Responsibilities = job.Responsibilities,
+                                   Requirements = job.Requirements,
+                                   CompanyName = company.CompanyName,
+                                   Status = RetrunStatus(resume.ResumeId, job.JobDescriptionId),
 
 
-            List<Models.JobDescriptionModel> jobDescriptions = jobsData.Select(j => new Models.JobDescriptionModel
-            {
-                JobTitle = j.JobTitle,
-                JobBrief = j.JobBrief,
-                Responsibilities = j.Responsibilities,
-                Requirements = j.Requirements,
-                JobDescriptionId = j.JobDescriptionId,
-                CompanyId = j.CompanyId,
-                CompanyName = j.CompanyName,
-                Status = RetrunStatus(j.ResumeId, j.JobDescId) 
-            }).ToList();
+
+
+
+                               }).ToList();
+
+            
 
             return View(jobDescriptions);
         }
 
 
-        public string RetrunStatus(int? resumeId, int jobDescriptionId)
+        public string RetrunStatus(int resumeId, int jobDescriptionId)
         {
 
             int count = context.Scores.Where(x => x.ResumeId == resumeId && x.JobDescriptionId == jobDescriptionId).Count();

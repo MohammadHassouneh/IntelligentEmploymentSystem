@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
+namespace IntelligentEmploymentSystem.Services
+{
+    public class MatchingService
+    {
+        
+        public List<string> ExtractKeywords(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return new List<string>();
+
+            
+            var words = Regex.Split(text.ToLower(), @"\W+")
+                             .Where(w => w.Length > 2) 
+                             .GroupBy(w => w)
+                             .Select(g => g.Key)
+                             .ToList();
+
+            return words;
+        }
+
+        
+        public double ComputeMatchScore(IntelligentEmploymentSystem.Models.ResumeModel resume ,IntelligentEmploymentSystem.Models.JobDescriptionModel jobDescription)
+        {
+            var resumeSkills = ExtractKeywords(resume.Skills);
+            var resumeEducation = ExtractKeywords(resume.Education);
+            var resumeExperience = ExtractKeywords(resume.Experience);
+            var resumeSummary = ExtractKeywords(resume.Summary);
+
+
+            var jobRequirements = ExtractKeywords(jobDescription.Requirements);
+            var jobResponsibilities = ExtractKeywords(jobDescription.Responsibilities);
+            var jobJobBrief = ExtractKeywords(jobDescription.JobBrief);
+            var jobTitle = ExtractKeywords(jobDescription.JobTitle);
+
+            var jobKeywords = jobRequirements
+                .Concat(jobResponsibilities)
+                .Concat(jobJobBrief)
+                .Concat(jobTitle)
+                .Distinct()
+                .ToList();
+
+
+            int SkillsMatchCount = jobKeywords.Count(k => resumeSkills.Contains(k));
+            int ExperienceMatchCount = jobKeywords.Count(k => resumeExperience.Contains(k));
+            int EducationMatchCount = jobKeywords.Count(k => resumeEducation.Contains(k));
+            int SummaryMatchCount = jobKeywords.Count(k => resumeSummary.Contains(k));
+
+            int MatchCount = SkillsMatchCount + ExperienceMatchCount + EducationMatchCount + SummaryMatchCount;
+
+            if (MatchCount == 0)
+            {
+                return 0; 
+            }
+
+            double SkillsScore = (double)SkillsMatchCount / MatchCount * 0.4;
+            double ExperienceScore = (double)ExperienceMatchCount / MatchCount * 0.3;
+            double EducationScore = (double)EducationMatchCount / MatchCount * 0.2;
+            double SummaryScore = (double)SummaryMatchCount / MatchCount * 0.1;
+
+            double score = (SkillsScore + ExperienceScore + EducationScore + SummaryScore) * 100;
+
+
+            return Math.Round(score, 2);
+        }
+    }
+}
