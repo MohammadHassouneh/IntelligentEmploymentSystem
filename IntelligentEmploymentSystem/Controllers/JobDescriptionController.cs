@@ -48,7 +48,7 @@ namespace IntelligentEmploymentSystem.Controllers
                 return RedirectToAction("Login");
 
             var resume = context.Resumes.FirstOrDefault(u => u.UserId == userId);
-            if (resume == null) return NotFound();
+            if (resume == null) return RedirectToAction("Create","Resume");
 
             List<IntelligentEmploymentSystem.Models.JobDescriptionModel> jobDescriptions = new List<JobDescriptionModel>();
 

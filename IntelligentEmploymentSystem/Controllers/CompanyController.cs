@@ -167,8 +167,8 @@ namespace IntelligentEmploymentSystem.Controllers
 
                     }).ToList();
 
-
-
+            
+         
 
             return View(jobs);
         }
