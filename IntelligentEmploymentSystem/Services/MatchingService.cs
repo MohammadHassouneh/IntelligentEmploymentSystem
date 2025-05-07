@@ -57,12 +57,14 @@ namespace IntelligentEmploymentSystem.Services
                 return 0; 
             }
 
-            double SkillsScore = (double)SkillsMatchCount / MatchCount * 0.4;
-            double ExperienceScore = (double)ExperienceMatchCount / MatchCount * 0.3;
-            double EducationScore = (double)EducationMatchCount / MatchCount * 0.2;
-            double SummaryScore = (double)SummaryMatchCount / MatchCount * 0.1;
 
-            double score = (SkillsScore + ExperienceScore + EducationScore + SummaryScore) * 100;
+
+            double SkillsScore = (double)SkillsMatchCount / MatchCount * 4;
+            double ExperienceScore = (double)ExperienceMatchCount / MatchCount * 3;
+            double EducationScore = (double)EducationMatchCount / MatchCount * 2;
+            double SummaryScore = (double)SummaryMatchCount / MatchCount * 1;
+
+            double score = (SkillsScore + ExperienceScore + EducationScore + SummaryScore)/10 * 100;
 
 
             return Math.Round(score, 2);
