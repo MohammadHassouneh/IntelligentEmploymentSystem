@@ -1,4 +1,5 @@
 ﻿using IntelligentEmploymentSystem.Models;
+using IntelligentEmploymentSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -45,7 +46,7 @@ namespace IntelligentEmploymentSystem.Controllers
             int? userId = HttpContext.Session.GetInt32("UserId");
 
             if (userId == null)
-                return RedirectToAction("Login");
+                return RedirectToAction("Login","User");
 
             var resume = context.Resumes.FirstOrDefault(u => u.UserId == userId);
             if (resume == null) return RedirectToAction("Create","Resume");
@@ -109,6 +110,47 @@ namespace IntelligentEmploymentSystem.Controllers
 
             return RedirectToAction("JobReview", "Company");
         }
+
+
+        private readonly MatchingService _matchingService;
+
+        public JobDescriptionController(MatchingService matchingService)
+        {
+            _matchingService = matchingService;
+        }
+
+        public IActionResult MatchScore(int jobId)
+        {
+            var jobDescription = context.JobDescriptions.FirstOrDefault(j => j.JobDescriptionId == jobId);
+            if (jobDescription == null)
+            {
+                return NotFound();
+            }
+            var resume = context.Resumes.FirstOrDefault(r => r.UserId == HttpContext.Session.GetInt32("UserId"));
+            if (resume == null)
+            {
+                return NotFound();
+            }
+            var resumeModel = new ResumeModel
+            {
+                Skills = resume.Skills,
+                Education = resume.Education,
+                Experience = resume.Experience,
+                Summary = resume.Summary
+            };
+            var score = _matchingService.ComputeMatchScore(resumeModel, new JobDescriptionModel
+            {
+                JobTitle = jobDescription.JobTitle,
+                Responsibilities = jobDescription.Responsibilities,
+                Requirements = jobDescription.Requirements,
+                JobBrief = jobDescription.JobBrief
+            });
+
+            score= (int)Math.Round(score);
+
+            return Json(new { score });
+        }
+
 
     }
 }
