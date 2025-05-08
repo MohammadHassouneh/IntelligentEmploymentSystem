@@ -59,10 +59,10 @@ namespace IntelligentEmploymentSystem.Services
 
 
 
-            double SkillsScore = (double)SkillsMatchCount / MatchCount * 4;
-            double ExperienceScore = (double)ExperienceMatchCount / MatchCount * 3;
-            double EducationScore = (double)EducationMatchCount / MatchCount * 2;
-            double SummaryScore = (double)SummaryMatchCount / MatchCount * 1;
+            double SkillsScore = (double)SkillsMatchCount / resumeSkills.Count * 4;
+            double ExperienceScore = (double)ExperienceMatchCount / resumeExperience.Count * 3;
+            double EducationScore = (double)EducationMatchCount / resumeEducation.Count * 2;
+            double SummaryScore = (double)SummaryMatchCount / resumeSummary.Count * 1;
 
             double score = (SkillsScore + ExperienceScore + EducationScore + SummaryScore)/10 * 100;
 
