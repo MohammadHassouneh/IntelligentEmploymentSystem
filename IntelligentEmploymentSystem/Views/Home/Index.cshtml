@@ -1,8 +1,56 @@
-﻿@{
+﻿
+
+@model IEnumerable<IntelligentEmploymentSystem.Models.JobDescriptionModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-center mb-5">
+    <h1 class="display-4">Explore Your Future Career</h1>
+    <p class="lead">Connecting talents with the right opportunities through intelligence and innovation.</p>
+</div>
+
+<div class="row">
+    @foreach (var job in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card job-card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@job.JobTitle</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@job.CompanyName</h6>
+                    <p class="card-text">@job.JobBrief</p>
+                    <a class="btn btn-primary" asp-controller="JobDescription" asp-action="GetAllJobDescription">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .job-card {
+        transition: transform 0.2s;
+    }
+
+        .job-card:hover {
+            transform: scale(1.02);
+        }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+ *@
