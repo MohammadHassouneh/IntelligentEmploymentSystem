@@ -1,105 +1,121 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IntelligentEmploymentSystem.Models.ResumeModel;
+
 @{
+    ViewData["Title"] = "Add Resume";
 }
-@model IntelligentEmploymentSystem.Models.ResumeModel;
 
-<html>
-<head>
+<style>
+    .resume-form-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 30px;
+    }
 
-</head>
-<body>
+    label, .form-label, h3 {
+        background: linear-gradient(to right,black);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, #007bff, #28a745);
+        border: none;
+        color: white;
+        border-radius: 8px;
+        padding: 10px 20px;
+    }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+    .form-control {
+        border-radius: 8px;
+    }
+
+    h3 {
+        font-weight: bold;
+    }
+</style>
+
+<div class="resume-form-container">
+    <h3 class="text-center mb-4">Add Your Resume</h3>
+
     <form asp-action="AddResume" enctype="multipart/form-data">
-        <dev class="row">
-            <dev class="col-md-4">
-               Name
-                <span class="text-danger">*</span>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label">Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" asp-for="Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
 
-            </dev>           
-
-        </dev>
-
-        <dev class="row">
-            <dev class="col-md-4">
-                Summary
-                <span class="text-danger">*</span>
-                <textarea class="form-control " rows="5" asp-for="Summary"></textarea>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label">Summary <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="3" asp-for="Summary"></textarea>
                 <span asp-validation-for="Summary" class="text-danger"></span>
-            </dev>
+            </div>
+        </div>
 
-        </dev>
-        <dev class="row">
-            <dev class="col-md-4">
-                Experience
-                <span class="text-danger">*</span>
-                <textarea class="form-control " rows="5" asp-for="Experience"></textarea>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Experience <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="3" asp-for="Experience"></textarea>
                 <span asp-validation-for="Experience" class="text-danger"></span>
-            </dev>
-            <dev class="col-md-4">
-                Skills
-                <span class="text-danger">*</span>
-                <textarea class="form-control " rows="5" asp-for="Skills"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Skills <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="3" asp-for="Skills"></textarea>
                 <span asp-validation-for="Skills" class="text-danger"></span>
-            </dev>
+            </div>
+        </div>
 
-        </dev>
-        <dev class="row">
-            <dev class="col-md-4">
-                Education
-                <span class="text-danger">*</span>
-                <textarea class="form-control " rows="5" asp-for="Education"></textarea>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label">Education <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="3" asp-for="Education"></textarea>
                 <span asp-validation-for="Education" class="text-danger"></span>
-            </dev>
+            </div>
+        </div>
 
-        </dev>
-        
-        <dev class="row">
-            <dev class="col-md-4">
-                Phone
-                <span class="text-danger">*</span>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label">Phone <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" asp-for="Phone" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
-
-            </dev>
-            <dev class="col-md-4">
-                Email
-                <span class="text-danger">*</span>
-                <input type="text" class="form-control " asp-for="Email" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Email <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" asp-for="Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-            </dev>
-            <dev class="col-md-4">
-                Address
-                <span class="text-danger">*</span>
-                <input type="text" class="form-control " asp-for="Address" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Address <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" asp-for="Address" />
                 <span asp-validation-for="Address" class="text-danger"></span>
-            </dev>
-
-        </dev>
-        <dev class="row">
-
-            <div class="col-md-4">
-                <label for="formFile" class="form-label">Upload Your Picture</label>
-                <input class="form-control" type="file" asp-for="PicPath">
             </div>
-        </dev>
-        
+        </div>
 
-        <dev class="row" style="padding-top:10px">
-            <div class="col-md-4">
-                <input type="submit" class="btn btn-primary" value="Add Resume" />
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <label class="form-label">Upload Your Picture</label>
+                <input class="form-control" type="file" asp-for="PicPath" />
             </div>
+        </div>
 
-            
-        </dev>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Add Resume</button>
+            </div>
+        </div>
     </form>
-</body>
+</div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-</html>
+
