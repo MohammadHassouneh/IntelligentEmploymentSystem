@@ -4,11 +4,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .gradient-text {
+        background: linear-gradient(90deg, #4285f4, #34a853);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .gradient-bg {
+        background: linear-gradient(90deg, #4285f4, #34a853);
+        color: white;
+    }
+
+    .gradient-border {
+        border: 1px solid transparent;
+        background: linear-gradient(white, white), linear-gradient(90deg, #4285f4, #34a853);
+        background-origin: border-box;
+        background-clip: content-box, border-box;
+    }
+</style>
+
 <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
-    <div class="login-card shadow p-5 rounded-4 bg-white" style="max-width: 450px; width: 100%;">
-        <h2 class="text-center text-primary mb-4">
-            <i class="fas fa-user-lock"></i> Login
-        </h2>
+    <div class="card shadow-sm p-5" style="max-width: 400px; width: 100%; background-color: white; border: none; border-radius: 20px;">
+        <!-- رمز المستخدم -->
+        <div class="text-center mb-4">
+            <div class="gradient-bg" style="width: 80px; height: 80px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                <i class="fas fa-user-lock" style="font-size: 30px; color: white;"></i>
+            </div>
+            <h3 class="gradient-text" style="font-weight: normal; margin-top: 10px;">User Login</h3>
+        </div>
 
         @if (!ViewData.ModelState.IsValid)
         {
@@ -18,22 +43,42 @@
         }
 
         <form asp-action="Login" method="post">
-            <div class="mb-3">
-                <label asp-for="UserName" class="form-label"><i class="fas fa-user"></i> Username</label>
-                <input asp-for="UserName" class="form-control" placeholder="Enter your username" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
+            <!-- حقل اسم المستخدم -->
+            <div class="mb-4">
+                <div class="gradient-border" style="border-radius: 50px; padding: 5px;">
+                    <div class="input-group">
+                        <span class="input-group-text gradient-text" style="background: transparent; border: none;">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <input asp-for="UserName" class="form-control" style="border: none; box-shadow: none; border-radius: 50px;" placeholder="Username" />
+                    </div>
+                </div>
+                <span asp-validation-for="UserName" class="text-danger small d-block mt-2 ps-3"></span>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Password" class="form-label"><i class="fas fa-lock"></i> Password</label>
-                <input asp-for="Password" type="password" class="form-control" placeholder="********" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+            <!-- حقل كلمة المرور -->
+            <div class="mb-4">
+                <div class="gradient-border" style="border-radius: 50px; padding: 5px;">
+                    <div class="input-group">
+                        <span class="input-group-text gradient-text" style="background: transparent; border: none;">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input asp-for="Password" type="password" class="form-control" style="border: none; box-shadow: none; border-radius: 50px;" placeholder="Password" />
+                    </div>
+                </div>
+                <span asp-validation-for="Password" class="text-danger small d-block mt-2 ps-3"></span>
             </div>
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg">
-                    <i class="fas fa-sign-in-alt"></i> Login
+            <!-- زر الدخول -->
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn gradient-bg" style="padding: 12px; font-weight: bold; border: none; border-radius: 50px;">
+                    <i class="fas fa-sign-in-alt"></i> LOGIN
                 </button>
+            </div>
+
+            <!-- رابط التسجيل -->
+            <div class="text-center">
+                <a asp-action="Create" asp-controller="User" class="gradient-text" style="text-decoration: none; font-weight: bold;">Don't have an account? Register now</a>
             </div>
         </form>
     </div>
@@ -45,49 +90,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
-
-@* 
-@model IntelligentEmploymentSystem.Models.LoginModel;
-
-<html>
-    <head></head>
-    <body>
-
-    <h2>User___Login</h2>
-    @Html.ValidationSummary()
-    <form asp-action="Login" method="post">
-        <dev class="row">
-            <div class="col-md-4">
-                User Name
-                <input type="text" class="form-control" asp-for="UserName" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                Password
-                <input type="text" class="form-control" asp-for="Password" type="password" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-        </dev>
-        
-        <dev class="row" style="padding:10px">
-            <dev class="col-md-4">
-
-                <button type="submit" class="btn btn-primary">Login</button>
-            </dev>
-            
-        </dev>
-        
-    </form>
-
-    
-
-    </body>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    }
-</html>
- *@

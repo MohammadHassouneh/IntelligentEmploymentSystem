@@ -1,229 +1,244 @@
 ﻿@model IntelligentEmploymentSystem.Models.CompanyModel
 @{
     ViewData["Title"] = "Company Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>@Model.CompanyName - Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-    <style>
-        body {
-            background-color: #f8f9fa;
+<style>
+    :root {
+        --blue: #4285f4;
+        --green: #34a853;
+        --gradient: linear-gradient(135deg, var(--blue), var(--green));
+    }
+
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .profile-header {
+        background: var(--gradient);
+        color: white;
+        padding: 3rem 0;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .profile-title {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-subtitle {
+        font-weight: 300;
+        opacity: 0.9;
+    }
+
+    .info-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease;
+        height: 100%;
+        border-left: 4px solid var(--blue);
+    }
+
+        .info-card:hover {
+            transform: translateY(-5px);
         }
 
-        .company-header {
-            background-color: #0d6efd;
+    .card-title {
+        color: var(--blue);
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .contact-card {
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+        .contact-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+    .contact-icon {
+        color: var(--blue);
+        font-size: 1.2rem;
+        margin-right: 8px;
+    }
+
+    .action-btn {
+        border-radius: 8px;
+        padding: 0.8rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        width: 100%;
+    }
+
+    .btn-primary {
+        background: var(--gradient);
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #3a7ae8, #2e9e4b);
+            transform: translateY(-2px);
+        }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #ffc107, #fd7e14);
+        color: white;
+    }
+
+    .btn-outline-danger {
+        border: 1px solid #dc3545;
+        color: #dc3545;
+    }
+
+        .btn-outline-danger:hover {
+            background: #dc3545;
             color: white;
-            padding: 30px;
-            border-radius: 10px;
         }
 
-        .card-title {
-            color: #0d6efd;
+    .section-title {
+        color: var(--blue);
+        font-weight: 600;
+        margin: 2rem 0 1rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
         }
-    </style>
-</head>
-<body>
+</style>
 
-    <div class="container py-5">
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="profile-header">
+        <h1 class="profile-title">@Model.CompanyName</h1>
+        <p class="profile-subtitle">Company Profile</p>
+    </div>
 
-        <!-- Header -->
-        <div class="company-header text-center mb-5">
-            <h1 class="display-5 fw-bold">@Model.CompanyName</h1>
-            <p class="lead">Company Profile</p>
-        </div>
-
-        <!-- About & Service -->
-        <div class="row g-4 mb-4">
-            <div class="col-md-6">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-info-circle"></i> About Us</h5>
-                        <p class="card-text">@Model.AboutUs</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-briefcase-fill"></i> Our Services</h5>
-                        <p class="card-text">@Model.OurService</p>
-                    </div>
+    <!-- About & Services Section -->
+    <h3 class="section-title">About Our Company</h3>
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="info-card card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-info-circle-fill"></i> About Us</h5>
+                    <p class="card-text">@Model.AboutUs</p>
                 </div>
             </div>
         </div>
-
-        <!-- Contact Info -->
-        <div class="row g-4 mb-4">
-            <div class="col-md-3">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h6><i class="bi bi-telephone-fill"></i> Phone</h6>
-                        <p class="mb-0">@Model.Phone</p>
-                    </div>
+        <div class="col-md-6">
+            <div class="info-card card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-briefcase-fill"></i> Our Services</h5>
+                    <p class="card-text">@Model.OurService</p>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h6><i class="bi bi-envelope-fill"></i> Email</h6>
-                        <p class="mb-0">@Model.Email</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h6><i class="bi bi-geo-alt-fill"></i> Address</h6>
-                        <p class="mb-0">@Model.Address</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h6><i class="bi bi-globe"></i> Website</h6>
-                        <p class="mb-0">@Model.WebSite</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Actions -->
-        <div class="row g-3 mb-3">
-            <div class="col-md-4">
-                @using (Html.BeginForm("Create", "JobDescription", FormMethod.Post))
-                {
-                    <button class="btn btn-primary w-100"><i class="bi bi-plus-circle"></i> Post Jobs</button>
-                }
-            </div>
-            <div class="col-md-4">
-                @using (Html.BeginForm("Update", "Company", FormMethod.Get))
-                {
-                    <button class="btn btn-warning w-100"><i class="bi bi-pencil-square"></i> Update Profile</button>
-                }
-            </div>
-            <div class="col-md-4">
-                @using (Html.BeginForm("Logout", "Company", FormMethod.Post))
-                {
-                    <button class="btn btn-outline-danger w-100"><i class="bi bi-box-arrow-right"></i> Logout</button>
-                }
-            </div>
-        </div>
-
-        <div class="row g-3">
-            <div class="col-md-4">
-                @using (Html.BeginForm("JobReview", "Company", FormMethod.Post))
-                {
-                    <button class="btn btn-success w-100"><i class="bi bi-journal-text"></i> Job Reviews</button>
-                }
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <!-- Contact Information -->
+    <h3 class="section-title">Contact Information</h3>
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="contact-card card">
+                <div class="card-body">
+                    <h6><i class="bi bi-telephone-fill contact-icon"></i> Phone</h6>
+                    <p class="mb-0">@Model.Phone</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="contact-card card">
+                <div class="card-body">
+                    <h6><i class="bi bi-envelope-fill contact-icon"></i> Email</h6>
+                    <p class="mb-0">@Model.Email</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="contact-card card">
+                <div class="card-body">
+                    <h6><i class="bi bi-geo-alt-fill contact-icon"></i> Address</h6>
+                    <p class="mb-0">@Model.Address</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="contact-card card">
+                <div class="card-body">
+                    <h6><i class="bi bi-globe contact-icon"></i> Website</h6>
+                    <p class="mb-0">@Model.WebSite</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-
-
-
-
-
-
-@* @model IntelligentEmploymentSystem.DBEntities.Company;
-
-
-<html>
-<head>
-
-</head>
-
-<body>
-
-    <dev class="row">
-        <dev class="col-4">
-
-            <h1>@Model.CompanyName</h1>
-        </dev>
-
-    </dev>
-
-    <dev class="row">
-        <dev class="col-md-6">
-            <h2>AboutUs</h2>
-            <p>@Model.AboutUs</p>
-        </dev>
-        <dev class="col-md-6">
-            <h2>OurService</h2>
-            <p>@Model.OurService</p
-        </dev>
-    </dev>
-
-    <dev class="row">
-        <dev class="col-md-4">
-            <h6>Phone</h6>
-            <p>@Model.Phone</p>
-        </dev>
-        <dev class="col-md-4">
-            <h6>Email</h6>
-            <p>@Model.Email</p>
-        </dev>
-    </dev>
-
-
-    <dev class="row">
-        <dev class="col-md-4">
-            <h6>Address</h6>
-            <p>@Model.Address</p>
-        </dev>
-        <dev class="col-md-4">
-            <h6>Website</h6>
-            <p>@Model.WebSite</p>
-        </dev>
-    </dev>
-
-    <dev class="row">
-        <dev class="col-md-4">
+    <!-- Actions -->
+    <h3 class="section-title">Company Actions</h3>
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
             @using (Html.BeginForm("Create", "JobDescription", FormMethod.Post))
             {
-               <button class="btn btn-success "  type="submit">Post jobs</button> 
+                <button class="action-btn btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Post Jobs
+                </button>
             }
-
-            
-        </dev>
-        <dev class="col-md-4">
+        </div>
+        <div class="col-md-3">
             @using (Html.BeginForm("Update", "Company", FormMethod.Get))
             {
-               <button class="btn btn-success "  type="submit">Update Company profile</button> 
+                <button class="action-btn btn btn-warning">
+                    <i class="bi bi-pencil-square"></i> Update Profile
+                </button>
             }
-
-            
-        </dev>
-        <dev class="col-md-4">
-            @using (Html.BeginForm("Logout", "Company", FormMethod.Post))
-            {
-               <button class="btn btn-outline-danger "  type="submit">logout</button> 
-            }
-        </dev>
-    </dev>
-     <dev class="row" style="padding-top:10px">
-        <dev class="col-md-4">
+        </div>
+        <div class="col-md-3">
             @using (Html.BeginForm("JobReview", "Company", FormMethod.Post))
             {
-               <button class="btn btn-success "  type="submit">Jobs Review</button> 
+                <button class="action-btn btn btn-success">
+                    <i class="bi bi-journal-text"></i> Job Reviews
+                </button>
             }
+        </div>
+        <div class="col-md-3">
+            @using (Html.BeginForm("Logout", "Company", FormMethod.Post))
+            {
+                <button class="action-btn btn btn-outline-danger">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </button>
+            }
+        </div>
+    </div>
+</div>
 
-            
-        </dev>
-        </dev>
-    
-    
-
-</body>
-</html> *@
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add smooth hover effects
+        document.querySelectorAll('.info-card, .contact-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+            });
+        });
+    </script>
+}

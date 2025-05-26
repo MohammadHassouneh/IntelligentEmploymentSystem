@@ -1,51 +1,95 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IntelligentEmploymentSystem.Models.UserModel
 @{
+    ViewData["Title"] = "Sign Up";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .gradient-text {
+        background: linear-gradient(90deg, #4285f4, #34a853);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
 
-@model IntelligentEmploymentSystem.Models.UserModel;
+    .gradient-bg {
+        background: linear-gradient(90deg, #4285f4, #34a853);
+        color: white;
+    }
 
-<html>
-    <head>
+    .gradient-border {
+        border: 1px solid transparent;
+        background: linear-gradient(white, white), linear-gradient(90deg, #4285f4, #34a853);
+        background-origin: border-box;
+        background-clip: content-box, border-box;
+        border-radius: 50px;
+    }
+</style>
 
-    </head>
-    <body>
-    <form asp-action="Registration">
-        <dev class="row">
-            <dev class="col-md-4">
-                User Name
-                <span class="text-danger">*</span>
-                <input type="text" class="form-control" asp-for="userName"/>
-                <span asp-validation-for="userName" class="text-danger"></span>
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="card shadow-sm p-5" style="max-width: 500px; width: 100%; background-color: white; border: none; border-radius: 20px;">
+        <h2 class="text-center gradient-text mb-4">Sign Up</h2>
 
-            </dev>
-        <dev class="col-md-4">
-            Email
-            <span class="text-danger">*</span>
-            <input type="text" class="form-control " asp-for="email" />
-                <span asp-validation-for="email" class="text-danger"></span>
-        </dev>
-        <dev class="col-md-4">
-            Password
-            <span class="text-danger">*</span>
-            <input type="password" class="form-control " asp-for="password" />
-                <span asp-validation-for="password" class="text-danger"></span>
-        </dev>
-
-        </dev>
-        <dev class="row" style="padding-top:10px">
-            <div class="col-md-4">
-            <input type="submit" class="btn btn-primary" value="Registration" />
+        <form asp-action="Registration" method="post">
+            <!-- حقل اسم المستخدم -->
+            <div class="mb-4">
+                <label asp-for="userName" class="form-label gradient-text" style="font-weight: bold;">User Name</label>
+                <div class="gradient-border" style="padding: 5px;">
+                    <div class="input-group">
+                        <span class="input-group-text gradient-text" style="background: transparent; border: none;">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <input asp-for="userName" class="form-control" style="border: none; box-shadow: none;" placeholder="Enter username" />
+                    </div>
+                </div>
+                <span asp-validation-for="userName" class="text-danger small d-block mt-2 ps-3"></span>
             </div>
-        </dev>
-    </form>
-    </body>
+
+            <!-- حقل البريد الإلكتروني -->
+            <div class="mb-4">
+                <label asp-for="email" class="form-label gradient-text" style="font-weight: bold;">Email</label>
+                <div class="gradient-border" style="padding: 5px;">
+                    <div class="input-group">
+                        <span class="input-group-text gradient-text" style="background: transparent; border: none;">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input asp-for="email" class="form-control" style="border: none; box-shadow: none;" placeholder="Enter email" />
+                    </div>
+                </div>
+                <span asp-validation-for="email" class="text-danger small d-block mt-2 ps-3"></span>
+            </div>
+
+            <!-- حقل كلمة المرور -->
+            <div class="mb-4">
+                <label asp-for="password" class="form-label gradient-text" style="font-weight: bold;">Password</label>
+                <div class="gradient-border" style="padding: 5px;">
+                    <div class="input-group">
+                        <span class="input-group-text gradient-text" style="background: transparent; border: none;">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input asp-for="password" type="password" class="form-control" style="border: none; box-shadow: none;" placeholder="Enter password" />
+                    </div>
+                </div>
+                <span asp-validation-for="password" class="text-danger small d-block mt-2 ps-3"></span>
+            </div>
+
+            @Html.ValidationSummary(false, "", new { @class = "text-danger mb-3" })
+
+            <!-- زر التسجيل -->
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn gradient-bg" style="padding: 12px; font-weight: bold; border: none; border-radius: 50px;">
+                    <i class="fas fa-user-plus"></i> REGISTER
+                </button>
+            </div>
+
+          
+        </form>
+    </div>
+</div>
 
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-</html>
