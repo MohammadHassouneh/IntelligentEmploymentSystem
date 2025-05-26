@@ -2,90 +2,207 @@
 
 @{
     ViewBag.Title = "Available Jobs";
-    ViewData["IsAvailableJobsPage"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container pt-4">
-    <h1 class="text-center text-white mb-4">Available Job Opportunities</h1>
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.0/css/dataTables.bootstrap5.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
 
-    <!-- Filters Section -->
-    <div class="row g-2 align-items-end bg-white rounded p-3 mb-4 shadow">
-        <div class="col-md-5">
-            <label for="titleFilter" class="form-label fw-bold">فلترة حسب المسمى الوظيفي</label>
-            <input type="text" id="titleFilter" class="form-control" placeholder="مثلاً: مهندس برمجيات">
-        </div>
-        <div class="col-md-5">
-            <label for="companyFilter" class="form-label fw-bold">فلترة حسب اسم الشركة</label>
-            <input type="text" id="companyFilter" class="form-control" placeholder="مثلاً: Google">
-        </div>
-        <div class="col-md-2 d-grid">
-            <button class="btn btn-primary" onclick="applyFilters()">
-                <i class="fas fa-filter me-1"></i> تطبيق الفلاتر
-            </button>
-        </div>
-    </div>
+        .page-title {
+            background: linear-gradient(to right, #0d6efd, #198754);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            font-size: 2rem;
+        }
 
-    <!-- Job Cards -->
-    <div class="row g-4">
-        @foreach (var job in Model)
-        {
-            <div class="col-md-4 job-card">
-                <div class="card card-job h-100 shadow-sm border-0">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-primary">@job.JobTitle</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@job.CompanyName</h6>
-                        <p class="card-text"><strong>Brief:</strong> @job.JobBrief?.Substring(0, Math.Min(100, job.JobBrief.Length))...</p>
+        .sidebar {
+            background: #fff !important;
+            padding: 1rem !important;
+            border-radius: 0.5rem !important;
+            box-shadow: 0 0 15px rgba(13, 110, 253, 0.15) !important;
+            display: flex !important;
+            flex-wrap: wrap !important;
+            align-items: center !important;
+            gap: 1rem !important;
+            margin-bottom: 1.5rem;
+        }
 
-                        <div class="mt-auto">
-                            <button class="btn btn-outline-primary btn-sm w-100 mb-2" data-bs-toggle="modal" data-bs-target="#jobModal-@job.JobDescriptionId">
-                                <i class="fas fa-info-circle me-1"></i> View Details
-                            </button>
+            .sidebar input.form-control {
+                max-width: 300px;
+                flex-grow: 1;
+            }
 
-                            @if (job.Status == "Apply Now")
-                            {
-                                <a class="btn btn-success btn-sm w-100 mb-2" asp-action="Apply" asp-controller="Score" asp-route-jobId="@job.JobDescriptionId">
-                                    <i class="fas fa-paper-plane me-1"></i> Apply
-                                </a>
+            .sidebar button {
+                white-space: nowrap;
+            }
 
-                                <button class="btn btn-info btn-sm w-100" onclick="getMatchScore(@job.JobDescriptionId)">
-                                    <i class="fas fa-chart-line me-1"></i> Match Score
+        .job-card {
+            background: #ffffff;
+            color: #000;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+            .job-card:hover {
+                transform: scale(1.02);
+            }
+
+            .job-card h4 {
+                background: linear-gradient(to right, #0d6efd, #20c997);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: bold;
+            }
+
+        .btn-light {
+            background-color: white;
+            color: #0d6efd;
+            border: none;
+            font-weight: bold;
+        }
+
+        .score-box {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .badge-status {
+            font-size: 1rem;
+            background-color: #198754;
+            padding: 0.3em 0.6em;
+            border-radius: 0.375rem;
+            color: white;
+        }
+    </style>
+}
+
+<div class="container-fluid py-4">
+    <h1 class="page-title text-center mb-4">Available Job Opportunities</h1>
+
+    <div class="row">
+        <section class="col-md-12">
+            <div class="sidebar">
+                <input type="text" id="jobTitleFilter" class="form-control" placeholder="Filter by Job Title" />
+                <input type="text" id="companyFilter" class="form-control" placeholder="Filter by Company" />
+                <button class="btn btn-primary" onclick="applyFilters()">
+                    <i class="fas fa-filter me-2"></i> Apply Filters
+                </button>
+            </div>
+        </section>
+
+        <section class="col-md-12">
+            <div class="row row-cols-1 row-cols-md-3 g-4" id="jobsContainer">
+                @foreach (var job in Model)
+                {
+                    <div class="col job-card-item">
+                        <div class="job-card h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <h4>@job.JobTitle</h4>
+                                <h6>@job.CompanyName</h6>
+                            </div>
+
+                            <div class="mt-3">
+                                <button class="btn btn-light btn-sm me-2" data-bs-toggle="modal" data-bs-target="#jobModal-@job.JobDescriptionId">
+                                    <i class="fas fa-info-circle me-1"></i> Details
                                 </button>
 
-                                <div class="score-box text-primary mt-2" id="score-box-@job.JobDescriptionId"></div>
-                            }
+                                @if (job.Status == "Apply Now")
+                                {
+                                    <a class="btn btn-success btn-sm me-2" asp-action="Apply" asp-controller="Score" asp-route-jobId="@job.JobDescriptionId">
+                                        <i class="fas fa-paper-plane"></i> Apply
+                                    </a>
+                                    <button class="btn btn-warning btn-sm" onclick="getMatchScore(@job.JobDescriptionId)">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                    <div class="score-box mt-2" id="score-box-@job.JobDescriptionId">
+                                        Score: <span id="score-@job.JobDescriptionId">Not calculated</span>%
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-status">@job.Status</span>
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="jobModal-@job.JobDescriptionId" tabindex="-1" aria-labelledby="jobModalLabel-@job.JobDescriptionId" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="jobModalLabel-@job.JobDescriptionId">@job.JobTitle at @job.CompanyName</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <strong>Brief:</strong> @job.JobBrief ?? "No brief available."
+                                    <br /><br />
+                                    <strong>Responsibilities:</strong>
+                                    <div>@job.Responsibilities ?? "No responsibilities listed."</div>
+                                    <br />
+                                    <strong>Requirements:</strong>
+                                    <div>@job.Requirements ?? "No requirements listed."</div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-        }
+        </section>
     </div>
 </div>
 
 @section Scripts {
     <script>
         function applyFilters() {
-            let title = document.getElementById("titleFilter").value.toLowerCase();
-            let company = document.getElementById("companyFilter").value.toLowerCase();
-            let cards = document.querySelectorAll(".job-card");
+            const jobTitle = $('#jobTitleFilter').val().toLowerCase();
+            const company = $('#companyFilter').val().toLowerCase();
 
-            cards.forEach(card => {
-                let titleText = card.querySelector(".card-title").innerText.toLowerCase();
-                let companyText = card.querySelector(".card-subtitle").innerText.toLowerCase();
+            $('.job-card-item').each(function () {
+                const title = $(this).find('h4').text().toLowerCase();
+                const comp = $(this).find('h6').text().toLowerCase();
 
-                if ((title === "" || titleText.includes(title)) &&
-                    (company === "" || companyText.includes(company))) {
-                    card.style.display = "block";
+                if (title.includes(jobTitle) && comp.includes(company)) {
+                    $(this).show();
                 } else {
-                    card.style.display = "none";
+                    $(this).hide();
                 }
             });
         }
 
         function getMatchScore(jobId) {
-            // هنا يمكنك إضافة منطق جلب وتحديث النتيجة حسب الوظيفة
-            let box = document.getElementById("score-box-" + jobId);
-            box.innerText = "Your match score is: " + (Math.random() * 100).toFixed(2) + "%";
+            const scoreSpan = $('#score-' + jobId);
+            const box = $('#score-box-' + jobId);
+            scoreSpan.text('Calculating...');
+            box.css('color', '#ffc107');
+
+            $.ajax({
+                url: '/JobDescription/MatchScore',
+                type: 'POST',
+                data: { jobId: jobId },
+                success: function (response) {
+                    scoreSpan.text(response.score);
+                    box.css('color', '#198754');
+                },
+                error: function () {
+                    scoreSpan.text("Error");
+                    box.css('color', '#dc3545');
+                }
+            });
         }
     </script>
 }
+
+
+
+
