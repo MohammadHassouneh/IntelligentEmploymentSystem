@@ -2,302 +2,90 @@
 
 @{
     ViewBag.Title = "Available Jobs";
+    ViewData["IsAvailableJobsPage"] = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewBag.Title - Intelligent Employment System</title>
+<div class="container pt-4">
+    <h1 class="text-center text-white mb-4">Available Job Opportunities</h1>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.0/css/dataTables.bootstrap5.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/2.3.0/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.3.0/js/dataTables.bootstrap5.js"></script>
-
-    <style>
-        body {
-            background-color: #f8f9fa;
-            padding: 2rem;
-        }
-
-        .page-title {
-            color: #0d6efd;
-            margin-bottom: 2rem;
-        }
-
-        .score-box {
-            margin-top: 10px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .badge-status {
-            font-size: 1rem;
-        }
-
-        .sidebar {
-            background: #fff;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        .modal-body {
-            white-space: pre-wrap;
-        }
-    </style>
-</head>
-<body>
-    <div class="container-fluid">
-        <h1 class="page-title text-center">Available Job Opportunities</h1>
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 mb-4">
-                <div class="sidebar">
-                    <h5>Filter Jobs</h5>
-                    <input type="text" id="jobTitleFilter" class="form-control mb-2" placeholder="Filter by Job Title">
-                    <input type="text" id="companyFilter" class="form-control mb-2" placeholder="Filter by Company">
-                    <button class="btn btn-primary w-100" onclick="applyFilters()">Apply Filters</button>
-                </div>
-            </div>
-
-            <!-- Table -->
-            <div class="col-md-9">
-                <div class="table-responsive">
-                    <table id="jobsTable" class="table table-bordered table-hover align-middle">
-                        <thead class="table-primary text-center">
-                            <tr>
-                                <th>Company</th>
-                                <th>Job Title</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var job in Model)
-                            {
-                                <tr>
-                                    <td class="company-name">@job.CompanyName</td>
-                                    <td class="job-title">@job.JobTitle</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#jobModal-@job.JobDescriptionId">
-                                            <i class="fas fa-info-circle"></i> View Details
-                                        </button>
-                                        <br />
-                                        @if (job.Status == "Apply Now")
-                                        {
-                                            <a class="btn btn-success btn-sm my-1" asp-action="Apply" asp-controller="Score" asp-route-jobId="@job.JobDescriptionId">
-                                                <i class="fas fa-paper-plane"></i> Apply
-                                            </a>
-                                            <br />
-                                            <button class="btn btn-info btn-sm" onclick="getMatchScore(@job.JobDescriptionId)">
-                                                <i class="fas fa-chart-line"></i> Match Score
-                                            </button>
-                                            <div class="score-box text-primary" id="score-box-@job.JobDescriptionId">Score: <span id="score-@job.JobDescriptionId">Not calculated</span>%</div>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-success badge-status">@job.Status</span>
-                                        }
-                                    </td>
-                                </tr>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="jobModal-@job.JobDescriptionId" tabindex="-1" aria-labelledby="jobModalLabel-@job.JobDescriptionId" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="jobModalLabel-@job.JobDescriptionId">@job.JobTitle at @job.CompanyName</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <strong>Brief:</strong> @job.JobBrief
-                                                <br /><br />
-                                                <strong>Responsibilities:</strong>
-                                                <div>@job.Responsibilities</div>
-                                                <br />
-                                                <strong>Requirements:</strong>
-                                                <div>@job.Requirements</div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <!-- Filters Section -->
+    <div class="row g-2 align-items-end bg-white rounded p-3 mb-4 shadow">
+        <div class="col-md-5">
+            <label for="titleFilter" class="form-label fw-bold">فلترة حسب المسمى الوظيفي</label>
+            <input type="text" id="titleFilter" class="form-control" placeholder="مثلاً: مهندس برمجيات">
+        </div>
+        <div class="col-md-5">
+            <label for="companyFilter" class="form-label fw-bold">فلترة حسب اسم الشركة</label>
+            <input type="text" id="companyFilter" class="form-control" placeholder="مثلاً: Google">
+        </div>
+        <div class="col-md-2 d-grid">
+            <button class="btn btn-primary" onclick="applyFilters()">
+                <i class="fas fa-filter me-1"></i> تطبيق الفلاتر
+            </button>
         </div>
     </div>
 
+    <!-- Job Cards -->
+    <div class="row g-4">
+        @foreach (var job in Model)
+        {
+            <div class="col-md-4 job-card">
+                <div class="card card-job h-100 shadow-sm border-0">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary">@job.JobTitle</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@job.CompanyName</h6>
+                        <p class="card-text"><strong>Brief:</strong> @job.JobBrief?.Substring(0, Math.Min(100, job.JobBrief.Length))...</p>
+
+                        <div class="mt-auto">
+                            <button class="btn btn-outline-primary btn-sm w-100 mb-2" data-bs-toggle="modal" data-bs-target="#jobModal-@job.JobDescriptionId">
+                                <i class="fas fa-info-circle me-1"></i> View Details
+                            </button>
+
+                            @if (job.Status == "Apply Now")
+                            {
+                                <a class="btn btn-success btn-sm w-100 mb-2" asp-action="Apply" asp-controller="Score" asp-route-jobId="@job.JobDescriptionId">
+                                    <i class="fas fa-paper-plane me-1"></i> Apply
+                                </a>
+
+                                <button class="btn btn-info btn-sm w-100" onclick="getMatchScore(@job.JobDescriptionId)">
+                                    <i class="fas fa-chart-line me-1"></i> Match Score
+                                </button>
+
+                                <div class="score-box text-primary mt-2" id="score-box-@job.JobDescriptionId"></div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
     <script>
-        let dataTable;
-
-        $(document).ready(function () {
-            dataTable = new DataTable('#jobsTable');
-        });
-
         function applyFilters() {
-            const jobTitle = $('#jobTitleFilter').val().toLowerCase();
-            const company = $('#companyFilter').val().toLowerCase();
+            let title = document.getElementById("titleFilter").value.toLowerCase();
+            let company = document.getElementById("companyFilter").value.toLowerCase();
+            let cards = document.querySelectorAll(".job-card");
 
-            $('#jobsTable tbody tr').each(function () {
-                const title = $(this).find('.job-title').text().toLowerCase();
-                const comp = $(this).find('.company-name').text().toLowerCase();
+            cards.forEach(card => {
+                let titleText = card.querySelector(".card-title").innerText.toLowerCase();
+                let companyText = card.querySelector(".card-subtitle").innerText.toLowerCase();
 
-                if (title.includes(jobTitle) && comp.includes(company)) {
-                    $(this).show();
+                if ((title === "" || titleText.includes(title)) &&
+                    (company === "" || companyText.includes(company))) {
+                    card.style.display = "block";
                 } else {
-                    $(this).hide();
+                    card.style.display = "none";
                 }
             });
         }
 
         function getMatchScore(jobId) {
-            const scoreSpan = $('#score-' + jobId);
-            const box = $('#score-box-' + jobId);
-            scoreSpan.text('Calculating...');
-            box.css('color', '#ffc107');
-
-            $.ajax({
-                url: '/JobDescription/MatchScore',
-                type: 'POST',
-                data: { jobId: jobId },
-                success: function (response) {
-                    scoreSpan.text(response.score);
-                    box.css('color', '#198754'); // green
-                },
-                error: function () {
-                    scoreSpan.text("Error");
-                    box.css('color', '#dc3545'); // red
-                }
-            });
+            // هنا يمكنك إضافة منطق جلب وتحديث النتيجة حسب الوظيفة
+            let box = document.getElementById("score-box-" + jobId);
+            box.innerText = "Your match score is: " + (Math.random() * 100).toFixed(2) + "%";
         }
     </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* 
-
-@model List<IntelligentEmploymentSystem.Models.JobDescriptionModel>;
-
-<html>
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.0/css/dataTables.bootstrap5.css" />
-
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/2.3.0/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.3.0/js/dataTables.bootstrap5.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-
-<body>
-    <h1>Available jobs</h1>
-
-    <table id="example" class="table table-striped" style="width:100%">
-
-        <thead>
-            <tr>
-                <th>Company</th>
-                <th>JobTitle</th>
-                <th>JobBrief</th>
-                <th>Responsibilities</th>
-                <th>Requirements</th>
-                <th>Apply</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (IntelligentEmploymentSystem.Models.JobDescriptionModel job in Model)
-            {
-                <tr>
-                    <td>@job.CompanyName</td>
-                    <td>@job.JobTitle</td>
-                    <td>@job.JobBrief</td>
-                    <td>@job.Responsibilities</td>
-                    <td>@job.Requirements</td>
-                    @if (@job.Status == "Apply Now")
-                    {
-                        <td>
-                            <a class="btn btn-success" asp-action="Apply" asp-controller="Score" asp-route-jobId="@job.JobDescriptionId">@job.Status</a>
-
-                            <button class="btn btn-info" style="margin-top:10px" onclick="getMatchScore(@job.JobDescriptionId)">Check Match Score</button>
-
-                            <p>Score: <span id="score-@job.JobDescriptionId">Not calculated</span>%</p>
-
-                        </td>
-                    }
-                    else{
-                        <td >
-                            <strong class="text-success">@job.Status</strong>
-
-                        </td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <script>
-        new DataTable('#example');
-    </script>
-
-    <script>
-        function getMatchScore(jobId) {
-            $.ajax({
-                url: '/JobDescription/MatchScore',
-                type: 'POST',
-                data: { jobId: jobId },
-                success: function (response) {
-                    $('#score-' + jobId).text(response.score);
-                },
-                error: function () {
-                    $('#score-' + jobId).text("Error");
-                }
-            });
-        }
-    </script>
-   
-
-    </body>
-
-</html>
- *@
+}

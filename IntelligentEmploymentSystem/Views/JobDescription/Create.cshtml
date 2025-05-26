@@ -1,78 +1,60 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model IntelligentEmploymentSystem.Models.JobDescriptionModel;
+﻿@model IntelligentEmploymentSystem.Models.JobDescriptionModel;
 
-<html>
-    <head>
+<div class="container py-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-5 bg-white">
+            <h2 class="text-center mb-4 fw-bold" style="
+                background: linear-gradient(to right, #0d6efd, #20c997);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            ">
+                ✨ Add New Job Description
+            </h2>
 
-    </head>
+            <form asp-action="AddJobDescription">
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <label class="form-label fw-semibold">Job Title <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control rounded-pill" asp-for="JobTitle" placeholder="e.g. Software Engineer" />
+                        <span asp-validation-for="JobTitle" class="text-danger small"></span>
+                    </div>
+                </div>
 
-    <body>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Job Brief <span class="text-danger">*</span></label>
+                        <textarea class="form-control rounded-3" rows="5" asp-for="JobBrief" placeholder="Enter job brief..."></textarea>
+                        <span asp-validation-for="JobBrief" class="text-danger small"></span>
+                    </div>
 
-    <form asp-action="AddJobDescription">
-        <dev class="row">
-            <dev class="col-md-4">
-                Job Title
-                <span class="text-danger">*</span>
-                <input type="text" class="form-control" asp-for="JobTitle" />
-                <span asp-validation-for="JobTitle" class="text-danger"></span>
-            </dev>
-            
-        </dev>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Responsibilities <span class="text-danger">*</span></label>
+                        <textarea class="form-control rounded-3" rows="5" asp-for="Responsibilities" placeholder="Enter responsibilities..."></textarea>
+                        <span asp-validation-for="Responsibilities" class="text-danger small"></span>
+                    </div>
+                </div>
 
-        <dev class="row">
-            <dev class="col-md-4">
-                JobBrief
-                <span class="text-danger">*</span>
-                <textarea type="text" class="form-control" rows="8" asp-for="JobBrief"></textarea>
-                <span asp-validation-for="JobBrief" class="text-danger"></span>
-            </dev>
-            <dev class="col-md-4">
-                Responsibilities
-                <span class="text-danger">*</span>
-                <textarea type="text" class="form-control" rows="8" asp-for="Responsibilities"></textarea>
-                <span asp-validation-for="Responsibilities" class="text-danger"></span>
-            </dev>
-            </dev>
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <label class="form-label fw-semibold">Requirements <span class="text-danger">*</span></label>
+                        <textarea class="form-control rounded-3" rows="5" asp-for="Requirements" placeholder="Enter requirements..."></textarea>
+                        <span asp-validation-for="Requirements" class="text-danger small"></span>
+                    </div>
+                </div>
 
-            <dev class="row">
-                <dev class="col-md-4">
-                    Requirements
-                    <span class="text-danger">*</span>
-                    <textarea type="text" class="form-control" rows="8" asp-for="Requirements"></textarea>
-                    <span asp-validation-for="Requirements" class="text-danger"></span>
-                </dev>
-               
-                </dev>
-
-
-       
-
-        
-
-        <dev class="row" style="padding-top:10px">
-            <dev class="col-md-4">
-                    <input type="submit" class="btn btn-primary" value="Post Job Description" />
-            </dev>
-        </dev>
-
-    </form>
-
-
-
-
-
-
-    </body>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success btn-lg px-5 rounded-pill">
+                        <i class="bi bi-check-circle me-2"></i> Post Job Description
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
-</html>
 

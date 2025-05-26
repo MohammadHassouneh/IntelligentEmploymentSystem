@@ -1,88 +1,255 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IntelligentEmploymentSystem.Models.CompanyModel
 @{
+    ViewData["Title"] = "Update Company Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model IntelligentEmploymentSystem.Models.CompanyModel;
 
-<html>
-<head>
+<style>
+    :root {
+        --primary-blue: #4285f4;
+        --primary-green: #34a853;
+        --gradient: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+        --gradient-text: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+        --light-gray: #f8f9fa;
+    }
 
-</head>
+    .update-container {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+        margin: 2rem auto;
+        max-width: 1000px;
+    }
 
-<body>
+    .form-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .form-title {
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-subtitle {
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        opacity: 0.8;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .required-star {
+        color: #dc3545;
+    }
+
+    .form-control {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 0.8rem 1rem;
+        width: 100%;
+        transition: all 0.3s ease;
+        color: #495057;
+    }
+
+        .form-control:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.25rem rgba(66, 133, 244, 0.25);
+            outline: none;
+        }
+
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .validation-message {
+        font-size: 0.85rem;
+        color: #dc3545;
+        margin-top: 0.25rem;
+    }
+
+    .submit-btn {
+        background: var(--gradient);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.8rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+        }
+
+    /* Gradient text for all other text elements */
+    .text-content {
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    @@media (max-width: 768px) {
+        .update-container {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+
+        .form-header {
+            margin-bottom: 1.5rem;
+        }
+    }
+</style>
+
+<div class="update-container">
+    <div class="form-header">
+        <h2 class="form-title"><i class="fas fa-building"></i> Update Company Profile</h2>
+        <p class="form-subtitle">Keep your company information up to date</p>
+    </div>
 
     <form asp-action="Update" method="post">
-        <dev class="row">
-            <dev class="col-md-4">
-                Company Name
-                <span class="text-danger">*</span>
-                <input type="text" class="form-control" asp-for="CompanyName" />
-                <span asp-validation-for="CompanyName" class="text-danger"></span>
-            </dev>
-            <dev class="col-md-4">
-                Email
-                <span class="text-danger">*</span>
-                <input type="text" class="form-control" asp-for="Email" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </dev>
+        <!-- Company Information Section -->
+        <div class="form-section">
+            <h3 class="section-title">Company Information</h3>
 
-        </dev>
-        <dev class="row">
-            <dev class="col-md-4">
-                AboutUs
-                <span class="text-danger">*</span>
-                <textarea type="text" class="form-control" rows="8" asp-for="AboutUs"></textarea>
-                <span asp-validation-for="AboutUs" class="text-danger"></span>
-            </dev>
-            <dev class="col-md-4">
-                Our Service
-                <span class="text-danger">*</span>
-                <textarea type="text" class="form-control" rows="8" asp-for="OurService"></textarea>
-                <span asp-validation-for="OurService" class="text-danger"></span>
-            </dev>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label" asp-for="CompanyName">
+                            Company Name <span class="required-star">*</span>
+                        </label>
+                        <input type="text" class="form-control" asp-for="CompanyName" placeholder="Enter company name" />
+                        <span asp-validation-for="CompanyName" class="validation-message"></span>
+                    </div>
+                </div>
 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label" asp-for="Email">
+                            Email <span class="required-star">*</span>
+                        </label>
+                        <input type="text" class="form-control" asp-for="Email" placeholder="Enter company email" />
+                        <span asp-validation-for="Email" class="validation-message"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        </dev>
+        <!-- About Sections -->
+        <div class="form-section">
+            <h3 class="section-title">About the Company</h3>
 
-        <dev class="row">
-            <dev class="col-md-4">
-                Phone
-                <span class="text-danger">*</span>
-                <input type="text" class="form-control" asp-for="Phone" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </dev>
-            <dev class="col-md-4">
-                Website
-                <span class="text-danger">*</span>
-                <input type="text" class="form-control" asp-for="WebSite" />
-                <span asp-validation-for="WebSite" class="text-danger"></span>
-            </dev>
-        </dev>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label" asp-for="AboutUs">
+                            About Us <span class="required-star">*</span>
+                        </label>
+                        <textarea class="form-control" asp-for="AboutUs" placeholder="Describe your company"></textarea>
+                        <span asp-validation-for="AboutUs" class="validation-message"></span>
+                    </div>
+                </div>
 
-        <dev class="row">
-            <dev class="col-md-4">
-                Address
-                <span class="text-danger">*</span>
-                <input type="text" class="form-control" asp-for="Address" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </dev>
-        </dev>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label" asp-for="OurService">
+                            Our Services <span class="required-star">*</span>
+                        </label>
+                        <textarea class="form-control" asp-for="OurService" placeholder="Describe your services"></textarea>
+                        <span asp-validation-for="OurService" class="validation-message"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <dev class="row" style="padding-top:10px">
-            <dev class="col-md-4">
-                <input type="submit" class="btn btn-primary" value="Update Profile" />
-            </dev>
-        </dev>
+        <!-- Contact Information -->
+        <div class="form-section">
+            <h3 class="section-title">Contact Information</h3>
 
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label" asp-for="Phone">
+                            Phone <span class="required-star">*</span>
+                        </label>
+                        <input type="text" class="form-control" asp-for="Phone" placeholder="Enter phone number" />
+                        <span asp-validation-for="Phone" class="validation-message"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label" asp-for="WebSite">
+                            Website <span class="required-star">*</span>
+                        </label>
+                        <input type="text" class="form-control" asp-for="WebSite" placeholder="Enter website URL" />
+                        <span asp-validation-for="WebSite" class="validation-message"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label" asp-for="Address">
+                            Address <span class="required-star">*</span>
+                        </label>
+                        <input type="text" class="form-control" asp-for="Address" placeholder="Enter company address" />
+                        <span asp-validation-for="Address" class="validation-message"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center mt-4">
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-save"></i> Update Profile
+            </button>
+        </div>
     </form>
+</div>
 
-
-</body>
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
 
-</html>

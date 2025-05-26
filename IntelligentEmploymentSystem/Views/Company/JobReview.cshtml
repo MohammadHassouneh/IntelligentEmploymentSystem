@@ -1,5 +1,4 @@
-﻿@model List<IntelligentEmploymentSystem.Models.JobDescriptionModel>;
-
+﻿@model List<IntelligentEmploymentSystem.Models.JobDescriptionModel>
 
 <html>
 <head>
@@ -11,45 +10,80 @@
     <script src="https://cdn.datatables.net/2.3.0/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.0/js/dataTables.bootstrap5.js"></script>
 
+    <style>
+        .table {
+            background-color: #fff;
+            color: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
+        thead {
+            background: linear-gradient(to right, #007BFF, #28a745);
+            color: white;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            border: none;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-info:hover {
+            background-color: #138496;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        table.dataTable tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 
 <body>
-
-    <table id="example" class="table table-striped">
-        <thead>
-            <tr>
-                <th>JobTitle</th>
-                <th>JobBrief</th>
-                <th>Responsibilities</th>
-                <th>Requirements</th>
-                <th>Applicants</th>
-
-            </tr>
-        </thead>
-        <tbody>
-           
-            @foreach(IntelligentEmploymentSystem.Models.JobDescriptionModel job in Model){
-            <tr>
-                <td>@job.JobTitle</td>
-                <td>@job.JobBrief</td>
-                <td>@job.Responsibilities</td>
-                <td>@job.Requirements</td>
-                    <td><a asp-route-jobId="@job.JobDescriptionId" asp-action="Applicants" asp-controller="Company"
-                           class="btn btn-info" style="margin-bottom:10px">Applicants</a>
-                        <a asp-route-jobId="@job.JobDescriptionId" asp-action="Remove" asp-controller="JobDescription"
-                           class="btn btn-danger" >Remove</a>
-                    </td>
-            </tr>
-            }
-
-            
-        </tbody>
-    </table>
+    <div class="container py-4">
+        <h2 class="mb-4 text-white">Job Descriptions</h2>
+        <table id="example" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Job Brief</th>
+                    <th>Responsibilities</th>
+                    <th>Requirements</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var job in Model)
+                {
+                    <tr>
+                        <td>@job.JobTitle</td>
+                        <td>@job.JobBrief</td>
+                        <td>@job.Responsibilities</td>
+                        <td>@job.Requirements</td>
+                        <td>
+                            <a asp-route-jobId="@job.JobDescriptionId" asp-action="Applicants" asp-controller="Company"
+                               class="btn btn-info btn-sm mb-1">Applicants</a>
+                            <a asp-route-jobId="@job.JobDescriptionId" asp-action="Remove" asp-controller="JobDescription"
+                               class="btn btn-danger btn-sm">Remove</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
     <script>
         new DataTable('#example');
     </script>
+</body>
+</html>
 
-		</body>
-	</html>
+
