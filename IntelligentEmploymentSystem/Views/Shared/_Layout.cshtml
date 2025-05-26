@@ -8,43 +8,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - IntelligentEmploymentSystem</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/IntelligentEmploymentSystem.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background: rgba(255,255,255,0.9) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #2c3e50 !important;
+            transition: all 0.3s;
+        }
+
+            .nav-link:hover {
+                color: #3498db !important;
+                transform: translateY(-2px);
+            }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            flex: 1;
+        }
+
+        footer {
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.2rem;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+
+            .social-icons a:hover {
+                color: #2ecc71;
+                transform: translateY(-3px);
+            }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+    </style>
 </head>
-<body style="background: linear-gradient(135deg, #f0f8ff, #e6f7ff); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+<body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/logo.jpg" alt="Logo" style="height: 40px;">
-                    <span class="ms-2 fw-bold text-primary">Intelligent Employment System</span>
+                    <img src="~/images/logo.jpg" alt="Logo" style="height: 60px;">
+                    <span class="ms-2">Intelligent Employment System</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown">Login</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-controller="Company" asp-action="Login">Company Login</a></li>
-                                <li><a class="dropdown-item" asp-controller="User" asp-action="Login">User Login</a></li>
+                            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-sign-in-alt me-1"></i> Login
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" asp-controller="Company" asp-action="Login"><i class="fas fa-building me-2"></i>Company</a></li>
+                                <li><a class="dropdown-item" asp-controller="User" asp-action="Login"><i class="fas fa-user me-2"></i>Job Seeker</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="signupDropdown" role="button" data-bs-toggle="dropdown">Sign Up</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-controller="Company" asp-action="Create">Company Sign Up</a></li>
-                                <li><a class="dropdown-item" asp-controller="User" asp-action="Create">Job Seeker Sign Up</a></li>
+                            <a class="nav-link dropdown-toggle" href="#" id="signupDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-plus me-1"></i> Sign Up
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" asp-controller="Company" asp-action="Create"><i class="fas fa-building me-2"></i>Company</a></li>
+                                <li><a class="dropdown-item" asp-controller="User" asp-action="Create"><i class="fas fa-user me-2"></i>Job Seeker</a></li>
                             </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="User" asp-action="Logout">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -53,85 +115,31 @@
     </header>
 
     <div class="container pt-4">
-        @RenderBody()
+        <main role="main">
+            @RenderBody()
+        </main>
     </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="copyright mb-0">&copy; 2025 Intelligent Employment System. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - IntelligentEmploymentSystem</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/IntelligentEmploymentSystem.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">IntelligentEmploymentSystem</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - IntelligentEmploymentSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
- *@
