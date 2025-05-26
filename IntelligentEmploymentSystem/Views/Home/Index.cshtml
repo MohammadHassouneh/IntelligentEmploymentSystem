@@ -1,6 +1,158 @@
-﻿
+﻿@model IEnumerable<IntelligentEmploymentSystem.Models.JobDescriptionModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
 
-@model IEnumerable<IntelligentEmploymentSystem.Models.JobDescriptionModel>
+<!-- Hero Section -->
+<div class="container-fluid py-5 mb-5 gradient-bg text-white">
+    <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start px-5">
+            <h1 class="display-4 fw-bold">Explore Your Future Career</h1>
+            <p class="lead">Connecting talents with the right opportunities through intelligence and innovation.</p>
+            <a href="#jobs" class="btn btn-lg btn-gradient mt-3 text-white">Browse Jobs</a>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="~/images/home-career.jpg" alt="Career" class="img-fluid" style="max-height: 350px;" />
+        </div>
+    </div>
+</div>
+
+<!-- Job Cards Section -->
+<div class="container" id="jobs">
+    <h2 class="mb-4 text-center text-dark">Available Job Opportunities</h2>
+    <div class="row">
+        @foreach (var job in Model)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm job-card gradient-card text-white border-0">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold">@job.JobTitle</h5>
+                        <h6 class="card-subtitle mb-2 text-light">@job.CompanyName</h6>
+                        <p class="card-text flex-grow-1">@job.JobBrief</p>
+                        <a class="btn btn-outline-light mt-auto" asp-controller="JobDescription" asp-action="GetAllJobDescription">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Style Enhancements -->
+<style>
+    .gradient-bg {
+        background: linear-gradient(135deg, #007bff, #28a745); /* blue to green */
+    }
+
+    .btn-gradient {
+        background: linear-gradient(135deg, #007bff, #28a745);
+        border: none;
+    }
+
+        .btn-gradient:hover {
+            opacity: 0.9;
+        }
+
+    .job-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 1rem;
+    }
+
+    .gradient-card {
+        background: linear-gradient(135deg, #007bff, #28a745);
+    }
+
+    .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<!-- Optional: Animation Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const cards = document.querySelectorAll('.job-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = 0;
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.6s ease';
+                card.style.opacity = 1;
+            }, index * 150);
+        });
+    });
+</script>
+
+
+
+
+
+@* @model IEnumerable<IntelligentEmploymentSystem.Models.JobDescriptionModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- Hero Section -->
+<div class="container-fluid bg-light py-5 mb-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start px-5">
+            <h1 class="display-4 fw-bold text-primary">Explore Your Future Career</h1>
+            <p class="lead">Connecting talents with the right opportunities through intelligence and innovation.</p>
+            <a href="#jobs" class="btn btn-lg btn-success mt-3">Browse Jobs</a>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="~/images/home-career.jpg" alt="Career" class="img-fluid" style="max-height: 350px;" />
+        </div>
+    </div>
+</div>
+
+<!-- Job Cards Section -->
+<div class="container" id="jobs">
+    <h2 class="mb-4 text-center text-dark">Available Job Opportunities</h2>
+    <div class="row">
+        @foreach (var job in Model)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm job-card border-0">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold">@job.JobTitle</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@job.CompanyName</h6>
+                        <p class="card-text flex-grow-1">@job.JobBrief</p>
+                        <a class="btn btn-outline-primary mt-auto" asp-controller="JobDescription" asp-action="GetAllJobDescription">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Style Enhancements -->
+<style>
+    .job-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 1rem;
+    }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+</style>
+
+<!-- Optional: Animation Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const cards = document.querySelectorAll('.job-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = 0;
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.6s ease';
+                card.style.opacity = 1;
+            }, index * 150);
+        });
+    });
+</script>
+ *@
+
+@* @model IEnumerable<IntelligentEmploymentSystem.Models.JobDescriptionModel>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -35,7 +187,7 @@
             transform: scale(1.02);
         }
 </style>
-
+ *@
 
 
 
