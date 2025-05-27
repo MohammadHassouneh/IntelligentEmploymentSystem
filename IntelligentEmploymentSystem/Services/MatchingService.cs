@@ -44,27 +44,37 @@ namespace IntelligentEmploymentSystem.Services
                 .Distinct()
                 .ToList();
 
+            double AverageLength = jobKeywords.Average(k => k.Length);
 
             int SkillsMatchCount = jobKeywords.Count(k => resumeSkills.Contains(k));
             int ExperienceMatchCount = jobKeywords.Count(k => resumeExperience.Contains(k));
             int EducationMatchCount = jobKeywords.Count(k => resumeEducation.Contains(k));
             int SummaryMatchCount = jobKeywords.Count(k => resumeSummary.Contains(k));
 
-            int MatchCount = SkillsMatchCount + ExperienceMatchCount + EducationMatchCount + SummaryMatchCount;
+            int MatchCount = SkillsMatchCount + ExperienceMatchCount + EducationMatchCount  + SummaryMatchCount;
 
             if (MatchCount == 0)
             {
                 return 0; 
             }
 
+            double AvarageCount = (SkillsMatchCount *4 + ExperienceMatchCount*3 + EducationMatchCount*2 + SummaryMatchCount*1) / 10.0;
 
 
-            double SkillsScore = (double)SkillsMatchCount / resumeSkills.Count * 4;
-            double ExperienceScore = (double)ExperienceMatchCount / resumeExperience.Count * 3;
-            double EducationScore = (double)EducationMatchCount / resumeEducation.Count * 2;
-            double SummaryScore = (double)SummaryMatchCount / resumeSummary.Count * 1;
+            double score= (AvarageCount / AverageLength) * 100;
 
-            double score = (SkillsScore + ExperienceScore + EducationScore + SummaryScore)/10 * 100;
+            if (score > 100) score = 100;
+            if (score < 0) score = 0;
+            
+
+
+
+
+
+
+
+
+
 
 
             return Math.Round(score, 2);
